@@ -139,4 +139,14 @@ booksByPrice.sort((a, b) => a.available === b.available) ? 0 : a.available ? -1 
 
 
 // Snack 7 (Bonus) - Analizza i tag
-// Usa reduce per creare un oggetto (tagCounts) che conta quante volte ogni tag viene usato tra i libri.
+const tagCounts = books.reduce((acc, b) => {
+    b.tags.forEach(tag => {
+        if(acc[tag]) {
+            acc[tag] ++
+        } else {
+            acc[tag] = 1;
+        }
+    });
+    return acc;
+}, {});
+// console.log(tagCounts);
