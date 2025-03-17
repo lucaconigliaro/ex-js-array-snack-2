@@ -113,10 +113,10 @@ async function fetchJson(url) {
 
 async function getBooks(ids) {
     const promises = ids.map(i => fetchJson(`${url}/${i}`));
-    
+
     try {
         const books = await Promise.all(promises)
-        console.log("Libri trovati:", books)
+        // console.log("Libri trovati:", books)
     } catch (error) {
         console.error("Errore nel recupero dei libri", error);
     }
@@ -127,3 +127,17 @@ getBooks([2, 13, 7, 21, 19]);
 
 
 
+// Snack 6 (Bonus) - Ordina i libri
+const areThereAvailableBooks = books.some(b => b.available);
+
+const booksByPrice = books.sort((a, b) => {
+    const priceA = parseFloat(a.price.replace('€', ''));
+    const priceB = parseFloat(b.price.replace('€', ''));
+    return priceA - priceB;
+});
+
+booksByPrice.sort((a, b) => b.available - a.available);
+// console.log(booksByPrice);
+
+// Snack 7 (Bonus) - Analizza i tag
+// Usa reduce per creare un oggetto (tagCounts) che conta quante volte ogni tag viene usato tra i libri.
