@@ -68,7 +68,7 @@ const discountedBooks = availableBooks.map(b => {
     const total = (price - discount).toFixed(2);
 
     // Restituisco un nuovo oggetto libro con il prezzo aggiornato
-    return { ...b, price: `${total}€` }; 
+    return { ...b, price: `${total}€` };
 });
 
 const fullPricedBook = discountedBooks.find(book => {
@@ -85,7 +85,7 @@ const fullPricedBook = discountedBooks.find(book => {
 const authors = books.map(b => b.author)
 
 const areAuthorsAdult = authors.every(a => a.age >= 18);
-if( areAuthorsAdult === true) {
+if (areAuthorsAdult === true) {
     authors.sort((a, b) => a.age - b.age)
 } else {
     authors.sort((a, b) => b.age - a.age)
@@ -99,3 +99,31 @@ const ages = authors.map(a => a.age)
 const ageSum = authors.reduce((acc, a) => acc + a.age, 0)
 const agesAvarage = ageSum / ages.length
 // console.log(agesAvarage);
+
+
+
+// Snack 5 (Bonus) - Raccogli i libri
+const url = `https://boolean-spec-frontend.vercel.app/freetestapi/books`
+
+async function fetchJson(url) {
+    const response = await fetch(url);
+    const obj = await response.json();
+    return obj;
+};
+
+async function getBooks(ids) {
+    const promises = ids.map(i => fetchJson(`${url}/${i}`));
+    
+    try {
+        const books = await Promise.all(promises)
+        console.log("Libri trovati:", books)
+    } catch (error) {
+        console.error("Errore nel recupero dei libri", error);
+    }
+};
+
+getBooks([2, 13, 7, 21, 19]);
+
+
+
+
