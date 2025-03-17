@@ -62,13 +62,10 @@ const discountedBooks = availableBooks.map(b => {
 
     // Rimuovo il simbolo e converto in numero decimale
     const price = parseFloat(b.price.replace('€', ''));
-    const discount = price * 20 / 100;
-
-    // Calcolo il prezzo scontato e arrotondo a 2 decimali
-    const total = (price - discount).toFixed(2);
+    const discount = (price * .8).toFixed(2);
 
     // Restituisco un nuovo oggetto libro con il prezzo aggiornato
-    return { ...b, price: `${total}€` };
+    return { ...b, price: `${discount}€` };
 });
 
 const fullPricedBook = discountedBooks.find(book => {
@@ -85,7 +82,7 @@ const fullPricedBook = discountedBooks.find(book => {
 const authors = books.map(b => b.author)
 
 const areAuthorsAdult = authors.every(a => a.age >= 18);
-if (areAuthorsAdult === true) {
+if (areAuthorsAdult) {
     authors.sort((a, b) => a.age - b.age)
 } else {
     authors.sort((a, b) => b.age - a.age)
@@ -95,8 +92,8 @@ if (areAuthorsAdult === true) {
 
 
 // Snack 4 - Calcola l’età media
-const ages = authors.map(a => a.age)
-const ageSum = authors.reduce((acc, a) => acc + a.age, 0)
+const ages = books.map(b => b.author.age)
+const ageSum = ages.reduce((sum, age) => sum + age, 0)
 const agesAvarage = ageSum / ages.length
 // console.log(agesAvarage);
 
@@ -136,8 +133,10 @@ const booksByPrice = books.sort((a, b) => {
     return priceA - priceB;
 });
 
-booksByPrice.sort((a, b) => b.available - a.available);
+booksByPrice.sort((a, b) => a.available === b.available) ? 0 : a.available ? -1 :1 ;
 // console.log(booksByPrice);
+
+
 
 // Snack 7 (Bonus) - Analizza i tag
 // Usa reduce per creare un oggetto (tagCounts) che conta quante volte ogni tag viene usato tra i libri.
